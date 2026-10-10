@@ -2,7 +2,7 @@
   "name": "quirex",
   "version": "0.1.0",
   "private": true,
-  "description": "Quirex —— 本地高中数学题库与讲义导出工具",
+  "description": "Quirex —— 本地试题管理系统与 LaTeX 讲义导出工具",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
