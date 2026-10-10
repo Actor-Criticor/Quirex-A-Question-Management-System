@@ -1,0 +1,485 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  width: 100%; /* v3：填满 --ma-page-w，不再自己限宽 */
+}
+
+.title {
+  font-size: 1.25rem;
+}
+
+.stepTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  margin-bottom: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.stepNo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.76rem;
+  flex: 0 0 auto;
+}
+
+.hint {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.typeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.divider {
+  width: 1px;
+  height: 1.4rem;
+  background: var(--border);
+  margin: 0 0.4rem;
+}
+
+/* v9：学科选择行 */
+.subjectRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.subjectRow button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+}
+
+/* 「当前」小标记：说明这一科就是顶栏选中的那一科 */
+.currentMark {
+  font-size: 0.68rem;
+  padding: 0 0.35em;
+  border-radius: 999px;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-weight: 400;
+}
+
+/* 录到非当前学科时的整句说明（横在按钮行下面一行） */
+.subjectHint {
+  flex: 1 1 100%;
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.pickFirst {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  text-align: center;
+  padding: 1.6rem;
+}
+
+.stemInput {
+  width: 100%;
+  font-family: inherit;
+  line-height: 1.9;
+}
+
+/* 难度输入 + 实时档位 */
+.diffRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.diffRow input {
+  flex: 1;
+  min-width: 0;
+}
+
+.bandTag {
+  flex: 0 0 auto;
+  font-size: 0.76rem;
+  padding: 0.05em 0.5em;
+  border-radius: 20px;
+  background: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+/* v3：创新开关 —— 从裸 checkbox 改成与题型/难度同族的胶囊按钮。
+   未选 = 虚线描边（看着就知道能点）；选中 = 实心强调色。 */
+.togglePill {
+  font-size: 0.85rem;
+  padding: 0.25em 0.85em;
+  border-radius: 999px;
+  border: 1px dashed var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+.togglePill:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.togglePill[aria-pressed='true'] {
+  border-style: solid;
+  border-color: var(--accent);
+  background: var(--accent-light);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.rowOps {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.optionRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.optionLabel {
+  width: 1.2rem;
+  color: var(--accent);
+  font-weight: 600;
+  flex: 0 0 auto;
+}
+
+.optionRow input {
+  flex: 1;
+}
+
+.miniBtn {
+  font-size: 0.76rem;
+  padding: 0.15em 0.5em;
+  flex: 0 0 auto;
+}
+
+/* ---------- 图片列表 ---------- */
+
+.imageList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-top: 0.6rem;
+}
+
+.imageItem {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.45rem;
+  background: var(--surface-alt);
+}
+
+.imageItem img {
+  width: 90px;
+  height: 68px;
+  object-fit: contain;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  flex: 0 0 auto;
+}
+
+.imageInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.84rem;
+  min-width: 0;
+}
+
+.imageMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.widthInput {
+  width: 4.6rem;
+}
+
+/* ---------- 元数据 ---------- */
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 0.6rem 0.9rem;
+}
+
+.metaField,
+.metaFieldWide {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.metaFieldWide {
+  grid-column: 1 / -1;
+}
+
+.metaLabel {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.metaField input,
+.metaFieldWide input,
+.metaFieldWide textarea,
+.metaField textarea {
+  width: 100%;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+.kChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+  font-size: 0.8rem;
+  background: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 20px;
+  padding: 0.05em 0.5em;
+}
+
+/* v9：自定义标签的胶囊 —— 与知识点（实线、主色）刻意不同：
+   虚线 + 灰一点，这样在同一页同时出现时一眼能分出是两个维度。 */
+.cChip {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px dashed var(--border);
+}
+
+.chipX {
+  border: none;
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.chipX:hover {
+  background: none;
+  border: none;
+}
+
+.dupWarn {
+  margin-top: 0.6rem;
+  font-size: 0.83rem;
+  color: #8a6d00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+}
+
+/* ---------- v8：知识点计数 ---------- */
+
+.kCount {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-left: 0.3rem;
+  align-self: center;
+}
+
+/* ---------- v8：正文语言的说明 ---------- */
+.langHint {
+  margin-top: 0.55rem;
+  font-size: 0.76rem;
+  line-height: 1.9;
+  color: var(--text-muted);
+}
+
+.langHint code {
+  font-family: "Cascadia Mono", Consolas, "Courier New", monospace;
+  font-size: 0.94em;
+  padding: 0 0.25em;
+  border-radius: 3px;
+  background: var(--note-bg);
+}
+
+/* ---------- v7：整卷的「来源」说明 ---------- */.sourceNote {
+  margin-top: 0.7rem;
+  font-size: 0.8rem;
+  line-height: 1.85;
+  color: var(--text-muted);
+  background: var(--note-bg);
+  border-left: 3px solid var(--note-border);
+  border-radius: 4px;
+  padding: 0.45rem 0.7rem;
+}
+
+/* 同名的来源已经存在 —— 只是提醒，不阻止 */
+.sourceDup {
+  margin-top: 0.45rem;
+  font-size: 0.8rem;
+  line-height: 1.8;
+  color: #8a6d00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+}
+
+/* ---------- 预览与检查 ---------- */
+
+.toggleBtn {
+  margin-left: auto;
+  font-size: 0.78rem;
+  padding: 0.15em 0.55em;
+}
+
+.lintOk {
+  font-size: 0.82rem;
+  color: #1a7f45;
+}
+
+.lintErr {
+  font-size: 0.82rem;
+  color: #b00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.previewBox {
+  margin-top: 0.6rem;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  background: var(--surface);
+}
+
+/* v5：录入预览的图档位（em 兜底，与详情页/列表同一套尺子） */
+.previewBox :global(.ma-body) {
+  --ma-fig-h: 18em;
+  --ma-img-h: 14em;
+}
+
+/* ---------- 整卷 PDF ---------- */
+
+.pdfRow {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.pdfPick {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.84rem;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 0.7rem;
+  min-width: 260px;
+  background: var(--surface-alt);
+}
+
+.fileName {
+  font-size: 0.78rem;
+  color: var(--accent);
+  word-break: break-all;
+}
+
+/* ---------- 提交 ---------- */
+
+.submitBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  position: sticky;
+  bottom: 0;
+  border-color: var(--accent);
+}
+
+.contLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.submitOps {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.submitOps a {
+  text-decoration: none;
+}
+
+/* ---------- 提示条 ---------- */
+
+.ok {
+  font-size: 0.86rem;
+  color: #1a7f45;
+  background: #eefaf1;
+  border: 1px solid #9ad9b4;
+  border-radius: 6px;
+  padding: 0.45rem 0.7rem;
+}
+
+.err {
+  font-size: 0.85rem;
+  color: #b00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+  padding: 0.45rem 0.7rem;
+  white-space: pre-wrap;
+}
+
+.warn {
+  font-size: 0.82rem;
+  color: #8a6d00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+  padding: 0.45rem 0.7rem;
+}
+/* v5：配图位置滑块所在的一行 */
+.posRow {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--border);
+}

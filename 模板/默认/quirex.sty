@@ -1,0 +1,389 @@
+%%
+%% quirex.sty — Quirex 讲义样式
+%%
+%% 与 main.tex 模板配合使用。**导出时按 meta.json 的 styleFiles 自动复制**，
+%% 所以想改名就改（记得同步 meta.json 与 main.tex 里的 \usepackage）。
+%% 本版相对 v0 的改动：
+%%   1) 新增 \fig —— 居中、**不浮动**、每题独立图号（v0 用 figure 浮动环境会把图挪走，导致图与题分离）
+%%   2) 修 \ans —— 答案正文放进标签同一行并留出间距；去掉不存在的「仿宋粗体」组合（消除字体警告）
+%%   3) 题目环境开始时重置图号计数器，保证「图1 = 本题第 1 张示意图」
+%%
+\ProvidesPackage{quirex}
+
+% ============================================
+% 一、核心宏包
+% ============================================
+\usepackage{ctex}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{trees,positioning,arrows.meta}
+\usepackage{ifthen}
+
+% ============================================
+% 二、样式宏包
+% ============================================
+\usepackage[explicit,clearempty,pagestyles]{titlesec}
+\usepackage{fancyhdr}
+\usepackage[colorlinks=true,
+            linkcolor=mycolor,
+            urlcolor=mycolor,
+            citecolor=mycolor]{hyperref}
+\usepackage{titletoc}
+\usepackage{microtype}
+\usepackage{enumitem}
+\setlist[enumerate,1]{label=(\arabic*)}
+
+% ============================================
+% 三、题目相关宏包
+% ============================================
+\usepackage{exam-zh-choices}
+\usepackage{needspace}
+\usepackage{fontawesome5}
+\usepackage{circledsteps}
+\usepackage{array}
+
+% ============================================
+% 四、颜色
+% ============================================
+\definecolor{mycolor}{HTML}{4A0C6E}
+\definecolor{lajiaocolor}{HTML}{9B72B5}
+
+% ============================================
+% 五、页面布局
+% ============================================
+\geometry{top=2cm,bottom=3cm,right=1.8cm,left=1.8cm}
+
+\let\cleardoublepage\clearpage
+\setlength{\parindent}{0pt}
+
+% ============================================
+% 六、章节样式
+% ============================================
+\titleformat{\chapter}{\centering\huge\bfseries}{}{1em}{#1}
+\titlespacing{\chapter}{0pt}{-50pt}{0pt}
+
+\renewcommand*{\thesection}{\arabic{section}}
+
+\titleformat{\section}
+{\normalfont\zihao{-4}\bfseries\raggedright}
+{}
+{-1em}
+{\textcolor{mycolor}{【考点\thesection】 #1}}
+\titlespacing{\section}{0pt}{0pt}{12pt}
+
+% ============================================
+% 七、目录格式
+% ============================================
+\titlecontents{chapter}[0pt]{\addvspace{1.5pt}\filright\bf}
+                  {\contentspush{\color{mycolor}第\thecontentslabel\ 讲\quad}}
+                  {}{\titlerule*[10pt]{.}\contentspage}
+
+% ============================================
+% 八、页眉页脚
+% ============================================
+\pagestyle{fancy}
+\fancyhf{}
+\fancypagestyle{plain}{%
+  \fancyfoot[C]{\thepage}
+}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+% ============================================
+% 九、显示开关
+% ============================================
+\newboolean{showana}
+\newboolean{showans}
+\newboolean{showcontext}
+\newboolean{showlevel}
+\newboolean{showres}
+\newboolean{showblank}
+
+\setboolean{showres}{true}
+\setboolean{showlevel}{true}
+\setboolean{showcontext}{true}
+\setboolean{showans}{false}
+\setboolean{showana}{false}
+\setboolean{showblank}{true}
+
+% ============================================
+% 十、核心命令
+% ============================================
+
+% 答案 —— 带圆角「答案」标签，正文紧随其后（v1：答案与解析已合并）
+\newcommand{\ans}[1]{%
+  \par\ifthenelse{\boolean{showans}}{%
+    \vspace{0.35em}\par\noindent
+    \tikz[baseline]{\node[anchor=base,font=\bfseries\color{mycolor},draw=mycolor!90!white,fill=white,rounded corners=0.8em,inner xsep=0.5em,thick,minimum height=1.2ex](T)at(0,0){答案};}%
+    \hspace{0.5em}{\kaishu #1}%
+  }{}%
+}
+
+% 保留给未来使用（例如想恢复「结论 / 详解」区分）
+\newcommand{\analysis}[1]{%
+  \par\ifthenelse{\boolean{showana}}{%
+    \vspace{0.35em}\par\noindent
+    \tikz[baseline]{\node[anchor=base,font=\bfseries\color{mycolor},draw=mycolor!90!white,fill=white,rounded corners=0.8em,inner xsep=0.5em,thick,minimum height=1.2ex](T)at(0,0){解析};}%
+    \hspace{0.5em}{\kaishu #1}%
+  }{}%
+}
+
+\newcommand{\memo}[1]{%
+  \par\ifthenelse{\boolean{showana}}{%
+    \vspace{0.35em}\par\noindent
+    \tikz[baseline]{\node[anchor=base,font=\bfseries\color{mycolor},draw=mycolor!90!white,fill=white,rounded corners=0.8em,inner xsep=0.5em,thick,minimum height=1.2ex](T)at(0,0){备注};}%
+    \hspace{0.5em}{\kaishu #1}%
+  }{}%
+}
+
+% 填空题横线
+\newcommand{\fillin}{\underline{\hspace{3em}}}
+
+% 选择题括号
+\newcommand{\pick}{\mbox{(\quad)}}
+
+% 题源标注（形如「（25全国1 第1题）」）—— 紫色仿宋
+\newcommand{\res}[1]{\ifthenelse{\boolean{showres}\AND \boolean{showcontext}}{\textcolor{mycolor}{\fangsong {(#1)}}}{}}
+
+% 题目信息行（v6）—— 题目上方那行小字。
+% 装什么由导出时的勾选决定：来源 / 题号 / 难度等级 / 知识点 / 年份，
+% 各段之间用「·」分隔（导出程序拼好整串再交给它）。
+% 「显示来源」开关（showres）同样管着它：讲义预设里想全关标注，关一个就行。
+\newcommand{\qinfo}[1]{\ifthenelse{\boolean{showres}\AND \boolean{showcontext}}{\textcolor{mycolor}{\fangsong {(#1)}}}{}}
+
+% 辣椒图标
+\newcommand{\lajiao}{\textcolor{lajiaocolor}{\faPepperHot}}
+
+% 难度（1–5 个辣椒）
+\newcommand{\level}[1]{\ifthenelse{\boolean{showlevel}\AND \boolean{showcontext}}{%
+    \ifcase#1%
+    \or {\lajiao}%
+    \or {\lajiao\lajiao}%
+    \or {\lajiao\lajiao\lajiao}%
+    \or {\lajiao\lajiao\lajiao\lajiao}%
+    \or {\lajiao\lajiao\lajiao\lajiao\lajiao}%
+    \fi%
+  }{}}
+
+% 带圈题号
+\newcommand*\cir[1]{\tikz[baseline=(char.base)]{%
+    \node[circle,fill=none,draw=mycolor,minimum size=0.5cm,align=center,inner sep=-1.0pt,font=\bfseries\sffamily\footnotesize\color{mycolor}] (char){#1};}
+}
+
+% ============================================
+% 十一、示意图（v1 新增）
+% ============================================
+%
+% \fig[宽度]{图片文件}
+%   · **不浮动**：直接排，绝不用 figure —— 浮动会把图挪到别处、与题分离
+%   · 图号每题独立：在 exercise 开始时重置计数器，所以「图1」永远指本题第 1 张示意图
+%     （这样无论题目在讲义里怎么排序，网页与 PDF 的图号都一致）
+%   · 宽度默认 0.3\linewidth
+%   · **位置**由 \mafigalign 决定（exercise 的第二个参数设的）：left / center / right。
+%     习惯上解答题的示意图靠右，所以导出层会按 meta.figAlign 自动带上。
+%
+% 实现说明：把「图 + 图号」装进一个 minipage（这样两者不会分家、宽度精确），
+% 再用 \makebox[\linewidth][l|c|r] 把这个整体摆到左边/中间/右边。
+%
+% 为什么不用 \hfill 夹在两边那种写法：
+%   段落最后一行的右侧除了 \hfill 还会叠上 \parfillskip（默认 0pt plus 1fil），
+%   于是右边有两个 fil、左边只有一个 —— 「居中」会被推成**靠右**。
+%   （这个坑我实打实踩过：日志里 \mafigalign=center，图却贴在右边。）
+%   \makebox 的位置参数是精确摆放，没有这类粘连问题。
+\newcounter{mafig}
+
+% 图 + 图号的本体（#1 = 宽度比例，#2 = 文件名）
+\newcommand{\mafiginner}[2]{%
+  \begin{minipage}{#1\linewidth}%
+    \centering
+    \includegraphics[width=\linewidth]{#2}\\[0.2em]%
+    {\small\color{mycolor}图\themafig}%
+  \end{minipage}%
+}
+
+\newcommand{\fig}[2][0.3]{%
+  \par\vspace{0.4em}%
+  \refstepcounter{mafig}%
+  \noindent
+  \ifthenelse{\equal{\mafigalign}{right}}{%
+    \makebox[\linewidth][r]{\mafiginner{#1}{#2}}%
+  }{%
+    \ifthenelse{\equal{\mafigalign}{left}}{%
+      \makebox[\linewidth][l]{\mafiginner{#1}{#2}}%
+    }{%
+      \makebox[\linewidth][c]{\mafiginner{#1}{#2}}%
+    }%
+  }%
+  \par\vspace{0.3em}%
+}
+
+% ============================================
+% 十二、分页与留白
+% ============================================
+\newcommand{\ssBlank}{0cm}
+\newcommand{\sBlank}{3cm}
+\newcommand{\mBlank}{7cm}
+\newcommand{\lBlank}{12cm}
+
+\newcommand{\ssNeed}{4\baselineskip}
+\newcommand{\sNeed}{8\baselineskip}
+\newcommand{\mNeed}{14\baselineskip}
+\newcommand{\lNeed}{20\baselineskip}
+
+\newcommand{\compactLayout}{%
+  \renewcommand{\ssBlank}{0cm}%
+  \renewcommand{\sBlank}{2cm}%
+  \renewcommand{\mBlank}{5cm}%
+  \renewcommand{\lBlank}{9cm}%
+}
+\newcommand{\normalLayout}{%
+  \renewcommand{\ssBlank}{0cm}%
+  \renewcommand{\sBlank}{3cm}%
+  \renewcommand{\mBlank}{7cm}%
+  \renewcommand{\lBlank}{12cm}%
+}
+\newcommand{\spaciousLayout}{%
+  \renewcommand{\ssBlank}{1cm}%
+  \renewcommand{\sBlank}{4cm}%
+  \renewcommand{\mBlank}{9cm}%
+  \renewcommand{\lBlank}{15cm}%
+}
+
+% ============================================
+% 十三、题目环境
+% ============================================
+
+% --- exercise 环境（习题）---
+% 用法: \begin{exercise}[留白档][配图位置]
+%   留白档   : SS / S / M / L（默认 M）
+%   配图位置 : left / center / right（默认 center）
+%              v5 新增。由 meta.figAlign 决定（没设过就按题型推导：解答题靠右），
+%              这样「简答题的示意图靠右」这条排版习惯可以由导出层自动带上，
+%              也可以在录入时手动改。
+% 两个参数都是可选的，所以 \begin{exercise}[M]、\begin{exercise}[M][right]、
+% \begin{exercise} 都能用。
+\newcounter{exercise}
+\counterwithin{exercise}{chapter}
+\renewcommand{\theexercise}{\arabic{exercise}}
+
+\newcommand{\mafigalign}{center}%  当前这道题的配图位置
+
+% 注意：这里**必须**用 \NewDocumentEnvironment 而不是 \newenvironment。
+% 因为 \newenvironment{...}[2][] 的含义是「1 个可选参数 + 1 个必选参数」，
+% 不是「2 个可选参数」—— 用它会把这个 `[` 当成必选参数吃掉，
+% 剩下的 `right]` 会**原样排进正文**（踩过）。
+% O{默认值} 才是真正的可选参数。
+\NewDocumentEnvironment{exercise}{ O{M} O{center} }{%
+  \ifthenelse{\equal{#1}{SS}}{%
+    \def\thisBlank{\ssBlank}%
+    \def\thisNeed{\ssNeed}%
+  }{%
+    \ifthenelse{\equal{#1}{S}}{%
+      \def\thisBlank{\sBlank}%
+      \def\thisNeed{\sNeed}%
+    }{%
+      \ifthenelse{\equal{#1}{L}}{%
+        \def\thisBlank{\lBlank}%
+        \def\thisNeed{\lNeed}%
+      }{%
+        \def\thisBlank{\mBlank}%
+        \def\thisNeed{\mNeed}%
+      }%
+    }%
+  }%
+  % 配图位置：left / center / right（默认 center）
+  \renewcommand{\mafigalign}{center}%
+  \ifthenelse{\equal{#2}{left}}{\renewcommand{\mafigalign}{left}}{}%
+  \ifthenelse{\equal{#2}{right}}{\renewcommand{\mafigalign}{right}}{}%
+  \ifthenelse{\boolean{showblank}}{%
+    \needspace{\thisNeed}%
+  }{}%
+  \refstepcounter{exercise}%
+  \setcounter{mafig}{0}%          ← v1：图号每题重置
+  \par\noindent
+  {\bfseries\textcolor{mycolor}{\theexercise.}} \ignorespaces
+}{%
+  \renewcommand{\mafigalign}{center}%  出题时复位，避免影响后面没写的题
+  \ifthenelse{\boolean{showblank}}{%
+    \par\vspace{\thisBlank}%
+    \vspace{\fill}%
+    \filbreak%
+  }{%
+    \par\vspace{1em}%
+  }%
+}
+
+% --- example 环境（例题）---
+\newcounter{example}
+\counterwithin{example}{chapter}
+\renewcommand{\theexample}{\arabic{example}}
+
+\newenvironment{example}{%
+  \refstepcounter{example}
+  \par\noindent
+  {\bfseries\textcolor{mycolor}{例\theexample}} \ignorespaces
+}{%
+  \par\vspace{1em}
+}
+
+% --- variation 环境（变式）---
+\newcounter{variation}[example]
+\renewcommand{\thevariation}{\arabic{variation}}
+
+\newenvironment{variation}{%
+  \refstepcounter{variation}
+  \par\noindent
+  {\bfseries\textcolor{mycolor}{变式\theexample-\thevariation}} \ignorespaces
+}{%
+  \par\vspace{1em}
+}
+
+% ============================================
+% 十四、预设模式
+% ============================================
+
+% 学生版：只显示题干，留白打开
+\newcommand{\presetStudent}{%
+  \setboolean{showcontext}{true}%
+  \setboolean{showans}{false}%
+  \setboolean{showana}{false}%
+  \setboolean{showlevel}{true}%
+  \setboolean{showres}{true}%
+  \setboolean{showblank}{true}%
+}
+
+% 对答案版：题干 + 答案，留白关闭
+\newcommand{\presetAnswer}{%
+  \setboolean{showcontext}{true}%
+  \setboolean{showans}{true}%
+  \setboolean{showana}{false}%
+  \setboolean{showlevel}{true}%
+  \setboolean{showres}{true}%
+  \setboolean{showblank}{false}%
+}
+
+% 教师版：全显示，留白关闭
+\newcommand{\presetTeacher}{%
+  \setboolean{showcontext}{true}%
+  \setboolean{showans}{true}%
+  \setboolean{showana}{true}%
+  \setboolean{showlevel}{true}%
+  \setboolean{showres}{true}%
+  \setboolean{showblank}{false}%
+}
+
+% 幻灯片：横版，一页一题，只题干
+\newcommand{\presetSlide}{%
+  \geometry{paper=landscape,top=2cm,bottom=2cm,right=2cm,left=2cm}%
+  \setboolean{showcontext}{true}%
+  \setboolean{showans}{false}%
+  \setboolean{showana}{false}%
+  \setboolean{showlevel}{false}%
+  \setboolean{showres}{false}%
+}
+
+\endinput

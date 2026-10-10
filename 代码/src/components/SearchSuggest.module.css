@@ -1,0 +1,79 @@
+/* v4：带建议的搜索框 */
+
+.wrap {
+  position: relative;
+  flex: 1 1 360px;
+  min-width: 220px;
+}
+
+.input {
+  width: 100%;
+}
+
+.list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  max-height: 20rem;
+  overflow-y: auto;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  width: 100%;
+  text-align: left;
+  font-size: 0.86rem;
+  padding: 0.32rem 0.5rem;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.itemActive,
+.item:hover {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.meta {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.itemActive .meta,
+.item:hover .meta {
+  color: inherit;
+  opacity: 0.8;
+}
+
+.kind {
+  padding: 0 0.4em;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  font-size: 0.68rem;
+  opacity: 0.75;
+}

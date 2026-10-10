@@ -1,0 +1,108 @@
+/* SubjectSettings.module.css — 设置页「学科」区（v9） */
+
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.6rem;
+}
+
+.h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+
+.table th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  padding: 0.3rem 0.4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.table td {
+  padding: 0.35rem 0.4rem;
+  border-bottom: 1px dashed var(--border);
+  vertical-align: middle;
+}
+
+/* 当前学科整行淡底 —— 与顶栏高亮的那一枚是同一个语义 */
+.activeRow td {
+  background: var(--note-bg);
+}
+
+.name {
+  font-weight: 600;
+}
+
+.currentBadge {
+  margin-left: 0.45em;
+  font-size: 0.7rem;
+  padding: 0 0.4em;
+  border-radius: 999px;
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+.cCount {
+  width: 4.5rem;
+  text-align: right;
+}
+
+/* ★ 表头也要右对齐：`.table th { text-align: left }` 比单类选择器更"重"，
+   不写这一条的话表头「记录」靠左、下面的数字靠右，看着就是"没对齐"（v10 修） */
+.table th.cCount {
+  text-align: right;
+}
+
+.cOps {
+  width: 8rem;
+}
+
+/* 路径可能很长：允许省略，别把整表撑破 */
+.path {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  max-width: 22rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.renameInput {
+  font-size: 0.84rem;
+  width: 8rem;
+}
+
+.foot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.7rem;
+}
+
+.ok {
+  font-size: 0.84rem;
+  color: #1a7f45;
+  margin-bottom: 0.5rem;
+}
+
+.err {
+  font-size: 0.84rem;
+  color: #b00;
+  margin-bottom: 0.5rem;
+}

@@ -1,0 +1,21 @@
+# 统一换行符：源码用 LF，Windows 批处理必须是 CRLF
+# （启动.bat / 停止.bat 里若被转成 LF，cmd.exe 解析会出问题）
+* text=auto eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 二进制，别做换行转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.pdf binary
+*.ico binary
+*.zip binary
+
+# 让 GitHub 的语言统计看得准（否则会被 .tex 模板和样例带偏）
+*.ts linguist-language=TypeScript
+*.tsx linguist-language=TypeScript
+模板/** linguist-documentation
+系统说明.md linguist-documentation

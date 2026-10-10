@@ -1,0 +1,253 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%; /* v3：填满 --ma-page-w */
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.title {
+  font-size: 1.25rem;
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+/* v9：分类自己的搜索框 —— 占据中间那段，把开关挤到右边 */
+.search {
+  flex: 1 1 12rem;
+  min-width: 7rem;
+  max-width: 18rem;
+  font-size: 0.84rem;
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.addRow {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.addInput {
+  flex: 1;
+}
+
+.tableCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.table th {
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 0.5rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 0.45rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.table tbody tr:hover {
+  background: var(--row-hover);
+}
+
+.cCount {
+  width: 6rem;
+}
+.cState {
+  width: 8rem;
+}
+/* v4：操作列改用全局 .ma-ops / .ma-ops-cell 约定。
+   以前是 text-align:right + button{margin-left} —— 表头靠左、按钮靠右，
+   且每行按钮数不同又没固定宽度，所以逐行都歪。 */
+.cOps {
+  width: var(--ma-ops-w);
+}
+
+.danger {
+  color: #b03030;
+  border-color: #e0b4b4;
+}
+.danger:hover:not(:disabled) {
+  background: #fff0f0;
+  border-color: #b03030;
+}
+
+.dangerBtn {
+  background: #b03030;
+  border-color: #b03030;
+  color: #fff;
+}
+.dangerBtn:hover:not(:disabled) {
+  background: #992828;
+  filter: none;
+}
+
+.retiredRow {
+  background: var(--surface-alt);
+}
+.retiredName {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 1.6rem 0;
+}
+
+.ok {
+  font-size: 0.86rem;
+  color: #1a7f45;
+  background: #eefaf1;
+  border: 1px solid #9ad9b4;
+  border-radius: 6px;
+  padding: 0.45rem 0.7rem;
+}
+
+.err {
+  font-size: 0.86rem;
+  color: #b00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+  padding: 0.45rem 0.7rem;
+}
+
+/* ---------- 弹窗 ---------- */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 1rem;
+}
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  width: min(560px, 100%);
+  max-height: 84vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+}
+
+.modalTitle {
+  font-size: 1rem;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.modalBody {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  overflow: auto;
+}
+
+.modalHint {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.modalFoot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.kv {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.88rem;
+}
+
+.kvKey {
+  width: 3.2rem;
+  color: var(--text-muted);
+  flex: 0 0 auto;
+}
+
+.renameInput {
+  flex: 1;
+}
+
+.previewBox {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mergeWarn {
+  font-size: 0.83rem;
+  color: #8a6d00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  line-height: 1.7;
+}
+
+.previewTitle {
+  font-size: 0.84rem;
+}
+
+.qidList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  max-height: 12rem;
+  overflow: auto;
+}
+
+.hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}

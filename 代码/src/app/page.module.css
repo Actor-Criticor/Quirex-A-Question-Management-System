@@ -1,0 +1,382 @@
+/* 题库浏览页（v2：卡片列表，直接显示题目） */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  /* v5：整页收敛到全站统一的「正文栏」宽度并居中。
+     这样页签、搜索/筛选区、结果条、题目卡片、分页条**全部自动同宽同左边界**，
+     不用逐个子元素去写 max-width（那正是以前上方宽、下方窄对不齐的原因）。
+     这个值同时也是「图片宽度 = 滑块 × 正文栏宽」里的那个正文栏。 */
+  width: 100%;
+  max-width: var(--ma-col-w);
+  margin: 0 auto;
+}
+
+/* ---------- 页签 ---------- */
+
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tabs > button:first-child,
+.tabs > button:nth-child(2) {
+  font-size: 0.95rem;
+  padding: 0.3em 1.1em;
+}
+
+/* ---------- v7/v8：试题篮统计（右侧固定卡）----------
+
+   为什么用 position:fixed 而不是栅格第二列：主列是 `--ma-col-w` 居中的，
+   一旦把它放进栅格里，居中基准就从"视口"变成"栅格剩余空间"，卡片会整体左移。
+   固定定位的元素**完全脱离主列排版**，主列一个像素都不动 —— 这是你要求的"不影响居中"。
+
+   v8 改了两处，都是你提的：
+     · `top` 往下挪到**与搜索框平齐**（量出来的，见下面注释）
+     · `right` 不再是死板的 1rem，而是**让侧栏在右侧空白带里居中** ——
+       这样侧栏左侧和右侧的留白相等，不会像以前那样一边贴边、一边空一大片。
+       公式：右侧空白带宽度 = (100vw - 主列宽) / 2，侧栏在其中居中 →
+       right = (带宽 - 侧栏宽) / 2 = (100vw - 主列宽) / 4 - 96px（侧栏 192 宽）。
+       1920 屏：right = 134px，左右各留 134px。窄到放不下时退回 1rem。 */
+.basketRail {
+  display: none;
+}
+
+.basketRailTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.86rem;
+  font-weight: 600;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.basketRailTotal {
+  margin-left: auto;
+  font-size: 1.1rem;
+  color: var(--accent);
+}
+
+.basketRailList {
+  list-style: none;
+  margin: 0.45rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+}
+
+.basketRailList li {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-muted);
+}
+
+.basketRailList b {
+  color: var(--text);
+}
+
+.basketRailEmpty {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  padding: 0.5rem 0 0.2rem;
+}
+
+/* v8：字大一点、点击区域大一点（你说原来太小不好点） */
+.basketRailGo {
+  display: block;
+  margin: 0.7rem -0.2rem -0.15rem;
+  padding: 0.45rem 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--accent);
+  text-decoration: none;
+  text-align: center;
+  border-radius: 8px;
+}
+.basketRailGo:hover {
+  background: var(--row-hover);
+}
+
+@media (min-width: 1460px) {
+  .basketRail {
+    display: block;
+    position: fixed;
+    /* v8：与**搜索框**平齐。这个 8.7rem 是量出来的，不是猜的：
+       固定导航 3.4rem + 页面 0.9rem 间距 + 页签行 2.3rem + 又 0.9rem 间距
+       + 筛选卡内边距 0.7rem ≈ 8.2rem，再加搜索框自己的一点边距。
+       浏览器断言会量「侧栏顶 ≈ 搜索框顶」（±12px），改版式时它会提醒我。 */
+    top: 8.7rem;
+    /* v8：在右侧空白带里居中 → 侧栏左右留白相等；放不下时退回 1rem。
+       用 100% 而不是 100vw：fixed 元素的百分比基准是**去掉滚动条**的视口宽度，
+       而 100vw 含滚动条 —— 差那 15px 就会让左右留白不等（实测过）。 */
+    right: max(1rem, calc((100% - var(--ma-col-w)) / 4 - 96px));
+    width: 192px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.6rem 0.7rem;
+    z-index: 5;
+  }
+}
+
+/* ---------- 筛选面板 ---------- */
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  /* v5：宽度由 .page 统一管，这里不再自己限宽 */
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-left: 0.5rem;
+  flex: 0 0 auto;
+}
+.row > .label:first-child {
+  margin-left: 0;
+}
+
+/* v4：搜索框换成 <SearchSuggest>（自带浮层），原来的 .search 已删除 */
+
+.hint {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.28rem;
+  flex: 1;
+}
+
+.chip {
+  font-size: 0.78rem;
+  padding: 0.12em 0.5em;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+}
+
+.chipCount {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+.chip.active .chipCount {
+  color: inherit;
+  opacity: 0.75;
+}
+
+/* ---------- v3：标签筛选 ---------- */
+
+/* 常驻那一行里显示的「已选」chips（可点掉） */
+.selectedChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.28rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.chipX {
+  font-size: 0.9em;
+  line-height: 1;
+  opacity: 0.7;
+}
+
+/* 展开面板 */
+.facetPanel {
+  border-top: 1px dashed var(--border);
+  padding-top: 0.55rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.facetHead {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.facetGroupCount {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-left: 0.3em;
+}
+
+.facetSearch {
+  margin-left: auto;
+  width: 14rem;
+  max-width: 100%;
+  font-size: 0.82rem;
+  padding: 0.2rem 0.5rem;
+}
+
+/* ---------- 结果条 ---------- */
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  padding: 0 0.2rem;
+}
+
+/* ---------- 题卡 ---------- */
+
+.cards {
+  /* v4：改回单栏。
+     双栏时网格会把同一行的两张卡拉成一样高 —— 短题那张下半截全是空白，
+     长题被挤在 660~715px 的窄列里不停折行、把整行顶得很高。
+     v5：宽度由 .page 统一管（--ma-col-w），每张卡自己多高就多高。 */
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+
+.card:hover {
+  border-color: var(--accent);
+}
+
+.cardChecked {
+  border-color: var(--accent);
+  box-shadow: inset 3px 0 0 var(--accent);
+  background: var(--accent-light);
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.check {
+  flex: 0 0 auto;
+  width: 1.05rem;
+  height: 1.05rem;
+  cursor: pointer;
+}
+
+.qid {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.diff {
+  white-space: nowrap;
+}
+
+/* v9：卡片头那一行里的自定义标签。
+   它要和「来源 第N题 难度」挤在一行，所以刻意做得比 .ma-badge 更轻
+   （细边框、不加底色块），否则一行里出现四五个色块会盖住题目本身的信息。 */
+.customTag {
+  flex: 0 0 auto;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  padding: 0 0.4em;
+  border: 1px dashed var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.detailLink {
+  margin-left: auto;
+  font-size: 0.82rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.body {
+  font-size: 0.95rem;
+}
+
+/* v5：列表卡片里的图 —— 兜底上限用 em（≈ 若干行文字），
+   不再用 px。px 会吃掉作者设的百分比（设 0.4 和 0.8 渲染一样），
+   也会让图和文字的比例随字号漂移。 */
+.body :global(.ma-body) {
+  --ma-fig-h: 11em;
+  --ma-img-h: 9em;
+}
+
+.cardTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.22rem;
+  padding-top: 0.4rem;
+  border-top: 1px dashed var(--border);
+}
+
+/* 整卷描述：只显示 2 行 */
+.descClamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+.paperLinks {
+  display: flex;
+  gap: 0.7rem;
+}
+.paperLinks a {
+  font-size: 0.83rem;
+  color: var(--accent);
+}
+
+.empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 2.5rem 0;
+  font-size: 0.9rem;
+}
+
+.err {
+  font-size: 0.85rem;
+  color: #b00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+  padding: 0.45rem 0.7rem;
+}
+
+/* v3：分页改为全站共用的 <Pager>（src/components/Pager.module.css），
+   这里原来的 .pager / .pageInfo 已删除。 */
+

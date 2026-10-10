@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "name": "双栏试卷",
+  "description": "9pt 两栏、中间带分栏线、不留作答空白。适合把整份卷子排成正式试卷的样子，一页装更多题。",
+  "engine": "xelatex",
+  "styleFiles": ["quirex.sty"],
+  "tokens": ["TITLE", "DATE", "PRESET", "BODY"],
+  "defaults": {
+    "group": "source"
+  }
+}

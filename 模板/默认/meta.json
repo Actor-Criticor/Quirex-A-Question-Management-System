@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "name": "默认讲义",
+  "description": "A4、每题带留白作答区的常规讲义。改 main.tex 调外观，改 quirex.sty 调题目与示意图样式。",
+  "engine": "xelatex",
+  "styleFiles": ["quirex.sty"],
+  "tokens": ["TITLE", "AUTHOR", "DATE", "PRESET", "LAYOUT", "BODY"],
+  "defaults": {
+    "group": "flat"
+  }
+}

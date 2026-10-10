@@ -1,0 +1,218 @@
+/* ExportDialog.module.css — 导出讲义弹窗 */
+
+.mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.42);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 4vh 1rem 2rem;
+  overflow: auto;
+  z-index: 200;
+}
+
+.dialog {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  width: min(760px, 100%);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
+  display: flex;
+  flex-direction: column;
+  max-height: 92vh;
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.title {
+  font-size: 1.05rem;
+}
+
+.sub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.close {
+  margin-left: auto;
+  border: none;
+  background: none;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: var(--text-muted);
+  padding: 0 0.3rem;
+  cursor: pointer;
+}
+
+.body {
+  padding: 0.9rem 1rem;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.label {
+  flex: 0 0 4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.field input[type='text'] {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.field select {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.segmented {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.hint {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-left: 4.5rem;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 0.9rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--border);
+}
+
+.sectionHead .hint {
+  margin-left: 0;
+}
+
+/* v10：6 个勾选框**排一行**（去掉每项后面那串解释之后，一行完全放得下）。
+   窄屏再退成两列 —— 挤成一行会换行，反而更难扫。 */
+.checks {
+  display: grid;
+  grid-template-columns: repeat(6, auto);
+  justify-content: start;
+  gap: 0.15rem 0.7rem;
+  margin-top: 0.3rem;
+}
+
+@media (max-width: 700px) {
+  .checks {
+    grid-template-columns: repeat(3, auto);
+  }
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  padding: 0.22rem 0.3rem;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.check:hover {
+  background: var(--row-hover);
+}
+
+.checkLabel {
+  flex: 0 0 auto;
+}
+
+.previewBox {
+  margin-top: 0.7rem;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 0.7rem;
+  background: var(--note-bg);
+}
+
+.previewHead {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+
+/* 这一行是在"模拟"PDF 里的样子，所以按讲义的排版来 */
+.previewLine {
+  font-size: 0.86rem;
+  line-height: 1.9;
+}
+
+.previewNo {
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-right: 0.3rem;
+}
+
+.previewInfo {
+  color: #7a4bd0;
+  font-family: "FangSong", "STFangsong", "仿宋", serif;
+  font-size: 0.82rem;
+}
+
+.previewTag {
+  color: #7a4bd0;
+  font-size: 0.82rem;
+  margin-left: 0.3rem;
+}
+
+.previewStem {
+  color: var(--text-muted);
+  margin-left: 0.4rem;
+}
+
+.warn {
+  font-size: 0.78rem;
+  line-height: 1.8;
+  color: #8a6d00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  margin: 0.35rem 0 0 4.5rem;
+}
+
+.note {
+  font-size: 0.76rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+  background: var(--note-bg);
+  border-left: 3px solid var(--note-border);
+  border-radius: 4px;
+  padding: 0.45rem 0.7rem;
+  margin-top: 0.8rem;
+}
+
+.foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  border-top: 1px solid var(--border);
+}

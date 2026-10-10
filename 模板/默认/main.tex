@@ -1,0 +1,59 @@
+%%
+%% Quirex 讲义模板（默认）
+%%
+%% ======== 这个模板用来做什么 ========
+%%
+%% 导出时，程序会做三件事：
+%%   1) 把本文件里的 {{占位符}} 换成实际内容，生成 题目.tex 与 答案.tex；
+%%   2) 把 meta.json 里 styleFiles 列出的文件（这里是 quirex.sty）复制到导出目录；
+%%   3) 跑 xelatex 编译出 PDF。
+%%
+%% 所以**想改讲义外观，直接改这个文件**，导出会照它来。
+%%
+%% ======== 可用占位符 ========
+%%
+%%   TITLE    讲义标题（默认取试题篮的名字）
+%%   AUTHOR   作者
+%%   DATE     日期
+%%   PRESET   显示预设，取值见 quirex.sty 里的 preset 宏
+%%   LAYOUT   留白版式，取值见 quirex.sty 里的 layout 宏
+%%   BODY     题目正文（由导出程序生成）
+%%
+%% 规矩只有三条：
+%%   · 用到的占位符必须写进 meta.json 的 tokens 里；
+%%   · 每个占位符在**本文件里**各出现恰好一次；
+%%   · PRESET 与 BODY 必须保留 —— PRESET 少了「题目 / 答案」两份会一模一样，
+%%     BODY 少了就没有正文。
+%%
+%% 下面这些注释里出现的 {{BODY}} 之类字样是安全的：导出时会先去掉注释再替换。
+%% （这是踩过的坑：以前不去注释，注释里的占位符会把正文注进注释里，
+%%   编译在 nonstopmode 下照样吐出一张坏 PDF —— 于是"编译通过"被谎报。）
+%%
+\documentclass[11pt,a4paper]{book}
+
+\usepackage{quirex}             % 与本文件同目录，导出时一起复制
+
+% ---------- 页面标题（不用 \maketitle，避免多出一张几乎空白的标题页） ----------
+\newcommand{\handoutHeader}{%
+  \begin{center}
+    {\fontsize{24}{28}\selectfont\bfseries\textcolor{mycolor}{ {{TITLE}} }}\\[0.7em]
+    {\small\textcolor{mycolor}{ {{AUTHOR}} \quad {{DATE}} }}
+  \end{center}
+  \vspace{0.4em}
+}
+
+% ---------- 显示预设 ----------
+{{PRESET}}
+
+% ---------- 留白版式 ----------
+{{LAYOUT}}
+
+\raggedbottom
+
+\begin{document}
+
+\handoutHeader
+
+{{BODY}}
+
+\end{document}

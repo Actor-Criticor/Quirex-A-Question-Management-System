@@ -1,0 +1,125 @@
+/* PathSettings.module.css — 设置页「路径」区 */
+
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.6rem;
+}
+
+.h2 {
+  font-size: 0.95rem;
+}
+
+.hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.itemHead {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.label {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.badge {
+  font-size: 0.72rem;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  background: var(--note-bg);
+}
+
+/* 有未保存改动时给个明确信号，避免"以为改了其实没存" */
+.dirty {
+  font-size: 0.72rem;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  color: #8a6d00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* 路径很长，输入框要吃掉剩下的宽度并允许横向滚动 */
+.inputRow input {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: "Cascadia Mono", Consolas, "Courier New", monospace;
+  font-size: 0.8rem;
+}
+
+.inputRow button {
+  flex: 0 0 auto;
+}
+
+.note {
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: #8a6d00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+  padding: 0.35rem 0.6rem;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 0.9rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--border);
+}
+
+.foot .hint {
+  flex: 1 1 16rem;
+}
+
+.ok {
+  font-size: 0.86rem;
+  color: #1a7f45;
+  background: #eefaf1;
+  border: 1px solid #9ad9b4;
+  border-radius: 6px;
+  padding: 0.45rem 0.7rem;
+  margin-bottom: 0.6rem;
+}
+
+.err {
+  font-size: 0.85rem;
+  color: #b00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+  padding: 0.45rem 0.7rem;
+  white-space: pre-wrap;
+  margin-bottom: 0.6rem;
+}

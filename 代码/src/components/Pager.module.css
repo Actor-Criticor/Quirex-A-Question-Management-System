@@ -1,0 +1,45 @@
+/* v3：全站统一分页条 */
+
+.pager {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding-top: 0.5rem;
+  font-size: 0.84rem;
+  color: var(--text-muted);
+}
+
+.pager button {
+  font-size: 0.84rem;
+  padding: 0.22rem 0.7rem;
+}
+
+.info {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+.info b {
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.dim {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.jump {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: auto;
+  font-size: 0.8rem;
+}
+.jump input {
+  width: 3.4rem;
+  font-size: 0.84rem;
+  padding: 0.18rem 0.4rem;
+  text-align: center;
+}

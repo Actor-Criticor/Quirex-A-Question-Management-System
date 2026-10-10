@@ -1,0 +1,83 @@
+/* SourceQuestions.module.css — 「此来源下的题目」 */
+
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.6rem;
+}
+
+.h2 {
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+}
+
+.hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.err {
+  font-size: 0.82rem;
+  color: #b00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+/* v8：该来源下还没有题时留的那块空白（不隐藏整块，见组件头注释） */
+.blank {
+  font-size: 0.82rem;
+  line-height: 1.9;
+  color: var(--text-muted);
+  padding: 0.5rem 0;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.item {
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  border-radius: 8px;
+  padding: 0.5rem 0.7rem;
+}
+
+/* 已勾选 = 在试题篮里，和浏览页保持同一种表达（左侧色条 + 淡淡底色） */
+.checked {
+  border-left-color: var(--accent);
+  background: var(--note-bg);
+}
+
+.itemHead {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  font-size: 0.82rem;
+  margin-bottom: 0.35rem;
+}
+
+.diff {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.link {
+  margin-left: auto;
+  font-size: 0.78rem;
+}
+
+.body {
+  font-size: 0.9rem;
+}

@@ -1,0 +1,53 @@
+%%
+%% Quirex 讲义模板（紧凑题单）
+%%
+%% ======== 这个模板和「默认」有什么不同 ========
+%%
+%%   默认  ：字号 11pt、每题留出作答空白、标题居中 —— 适合当作业纸
+%%   本模板：字号 10pt、**不留作答空白**、题目之间紧凑、标题左对齐加一条横线
+%%           —— 适合当「复习清单 / 课堂速练 / 一页速览」
+%%
+%% 另外它还演示了契约里的两点灵活性：
+%%   · **不声明 LAYOUT**：版式直接写死成 \compactLayout（本程序目前也不给你选版式）
+%%   · **不声明 AUTHOR**：不需要作者行就不用留占位符
+%%     所以 meta.json 的 tokens 是 ["TITLE","DATE","PRESET","BODY"] —— 四个即可
+%%
+%% ======== 可用占位符（全量） ========
+%%   TITLE / AUTHOR / DATE / PRESET / LAYOUT / BODY
+%%   用到的要写进 meta.json 的 tokens；PRESET 与 BODY 必须保留。
+%%   注释里写占位符是安全的 —— 导出前会先剥掉注释。
+%%
+\documentclass[10pt,a4paper]{book}
+
+\usepackage{quirex}             % 与本文件同目录，导出时一起复制
+
+% ---------- 更紧的页边距：题单是「一页尽量多装」 ----------
+\geometry{top=1.8cm,bottom=1.8cm,left=1.7cm,right=1.7cm}
+
+% ---------- 页面标题：左对齐 + 一条横线（不用 \maketitle，免得白出一页） ----------
+\newcommand{\handoutHeader}{%
+  \noindent{\fontsize{18}{22}\selectfont\bfseries\textcolor{mycolor}{ {{TITLE}} }}\hfill
+  {\small\textcolor{mycolor}{ {{DATE}} }}\par
+  \vspace{0.15em}
+  {\color{mycolor}\hrule height 0.9pt}
+  \vspace{0.5em}
+}
+
+% ---------- 显示预设 ----------
+{{PRESET}}
+
+% ---------- 版式：本模板写死紧凑（不留作答空白） ----------
+\compactLayout
+
+% 题与题之间更紧一点
+\setlength{\parskip}{0.15em}
+
+\raggedbottom
+
+\begin{document}
+
+\handoutHeader
+
+{{BODY}}
+
+\end{document}

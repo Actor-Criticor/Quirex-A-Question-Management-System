@@ -1,0 +1,394 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  width: 100%; /* v3：填满 --ma-page-w，不再自己限宽 */
+}
+
+/* ---------- 头部 ---------- */
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.headLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.back {
+  font-size: 0.86rem;
+  color: var(--accent);
+  text-decoration: none;
+  /* v7：从 <a> 换成 <button>（要走 router.back()），所以按钮样式得清掉 */
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+.back:hover {
+  text-decoration: underline;
+}
+
+/* ---------- v7：整卷「基本信息」 ---------- */
+
+.infoHint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.infoList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.86rem;
+}
+
+.infoRow {
+  display: flex;
+  gap: 0.8rem;
+  align-items: baseline;
+}
+
+.infoKey {
+  flex: 0 0 3.5rem;
+  color: var(--text-muted);
+}
+
+/* 描述全文：换行原样保留（描述里常常是分行写的卷子结构） */
+.descFull {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: pre-wrap;
+  line-height: 1.85;
+}
+
+.title {
+  font-size: 1.15rem;
+}
+
+.headOps {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+.headOps a {
+  text-decoration: none;
+}
+
+/* ---------- 元数据摘要 ---------- */
+
+.metaBar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 0.8rem;
+}
+.metaBar b {
+  color: var(--text);
+}
+
+/* ---------- 标签页 ---------- */
+
+.tabs {
+  display: flex;
+  gap: 0.4rem;
+}
+
+/* ---------- 区块 ---------- */
+
+.sectionHead {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.6rem;
+}
+.sectionHead > button:last-child {
+  margin-left: auto;
+}
+
+.h2 {
+  font-size: 0.95rem;
+}
+
+.rowOps {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* ---------- 正文编辑 ---------- */
+
+.texArea {
+  width: 100%;
+  font-family: "Cascadia Mono", Consolas, "Courier New", monospace;
+  font-size: 0.84rem;
+  line-height: 1.85;
+}
+
+/* ---------- 预览 ---------- */
+
+.previewBox {
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+  background: var(--surface);
+  /* v5：成段的题面用全站统一的正文栏宽度（跟图片的百分比基准是同一把尺子） */
+  max-width: var(--ma-col-w);
+}
+
+/* v5：详情页看大图的档位（em 兜底；正文栏宽度由 --ma-col-w 统一） */
+.previewBox :global(.ma-body) {
+  --ma-fig-h: 24em;
+  --ma-img-h: 18em;
+}
+
+/* ---------- 检查结果 ---------- */
+
+.lintOk {
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
+  color: #1a7f45;
+}
+
+.lintErr,
+.lintWarn {
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.lintErr {
+  color: #b00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+}
+
+.lintWarn {
+  color: #8a6d00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+}
+
+/* ---------- 图片 ---------- */
+
+.widthLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.widthInput {
+  width: 4.4rem;
+}
+
+.imageGrid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 0.6rem;
+  margin-top: 0.7rem;
+}
+
+.imageCard {
+  display: flex;
+  gap: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem;
+  background: var(--surface-alt);
+}
+
+.imageCard img {
+  width: 78px;
+  height: 62px;
+  object-fit: contain;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  flex: 0 0 auto;
+}
+
+.imageMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.imageOps {
+  display: flex;
+  gap: 0.3rem;
+  margin-top: auto;
+}
+.imageOps button {
+  font-size: 0.74rem;
+  padding: 0.12em 0.45em;
+}
+
+/* ---------- 整卷 PDF ---------- */
+
+.pdfTabs {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.pdfFrame {
+  width: 100%;
+  height: 78vh;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-alt);
+}
+
+.pdfUpload {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.7rem;
+  flex-wrap: wrap;
+}
+
+/* ---------- 元数据表单 ---------- */
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 0.65rem 0.9rem;
+}
+
+.metaField,
+.metaFieldWide {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.metaFieldWide {
+  grid-column: 1 / -1;
+}
+
+.metaLabel {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* v3：创新开关（与录入页同一套观感） */
+.togglePill {
+  align-self: flex-start;
+  font-size: 0.85rem;
+  padding: 0.25em 0.85em;
+  border-radius: 999px;
+  border: 1px dashed var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+.togglePill:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.togglePill[aria-pressed='true'] {
+  border-style: solid;
+  border-color: var(--accent);
+  background: var(--accent-light);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.metaField input,
+.metaFieldWide input,
+.metaFieldWide textarea {
+  width: 100%;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+.kChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+  font-size: 0.8rem;
+  background: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 20px;
+  padding: 0.05em 0.5em;
+}
+
+/* v9：自定义标签的胶囊（虚线 + 灰）—— 与知识点区分开 */
+.cChip {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px dashed var(--border);
+}
+
+.chipX {
+  border: none;
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.chipX:hover {
+  background: none;
+  border: none;
+}
+
+/* ---------- 提示 ---------- */
+
+.ok {
+  font-size: 0.86rem;
+  color: #1a7f45;
+  background: #eefaf1;
+  border: 1px solid #9ad9b4;
+  border-radius: 6px;
+  padding: 0.45rem 0.7rem;
+}
+
+.err {
+  font-size: 0.85rem;
+  color: #b00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+  padding: 0.45rem 0.7rem;
+  white-space: pre-wrap;
+}
+
+/* v5：配图位置滑块所在的一行 */
+.posRow {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--border);
+}

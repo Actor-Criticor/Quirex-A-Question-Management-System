@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "name": "紧凑题单",
+  "description": "10pt、不留作答空白、题目紧凑，标题左对齐加一条横线。适合复习清单、课堂速练、一页速览。",
+  "engine": "xelatex",
+  "styleFiles": ["quirex.sty"],
+  "tokens": ["TITLE", "DATE", "PRESET", "BODY"],
+  "defaults": {
+    "group": "knowledge"
+  }
+}

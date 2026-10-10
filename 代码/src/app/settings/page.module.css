@@ -1,0 +1,168 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  width: 100%; /* v3：填满 --ma-page-w */
+}
+
+.title {
+  font-size: 1.25rem;
+}
+
+.h2 {
+  font-size: 0.95rem;
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.6rem;
+}
+
+.hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.kvList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.kv {
+  display: flex;
+  gap: 0.8rem;
+  font-size: 0.85rem;
+  align-items: baseline;
+}
+
+.kvKey {
+  width: 6.5rem;
+  color: var(--text-muted);
+  flex: 0 0 auto;
+}
+
+.tableCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.table th {
+  text-align: left;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 0.45rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 0.4rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.table tbody tr:hover {
+  background: var(--row-hover);
+}
+
+.cTime {
+  width: 12rem;
+  white-space: nowrap;
+}
+.cPdf {
+  width: 8rem;
+}
+/* v4：操作列改用全局 .ma-ops 约定（表头与按钮同一起跑线 + 固定按钮宽度）。
+   这里只保留列宽，不再写 text-align: right —— 那正是按钮对不齐的原因。 */
+.cOps {
+  width: var(--ma-ops-w);
+}
+
+.empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 1.4rem 0;
+}
+
+.migrateState {
+  margin-bottom: 0.4rem;
+}
+
+.warnBox {
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+  line-height: 1.9;
+  color: #8a6d00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+  padding: 0.5rem 0.7rem;
+}
+
+.cmdBox {
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  background: var(--note-bg);
+  border-left: 3px solid var(--note-border);
+  border-radius: 4px;
+  padding: 0.5rem 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.pre {
+  margin-top: 0.7rem;
+  max-height: 26rem;
+  overflow: auto;
+  background: var(--note-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.7rem;
+  font-size: 0.76rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  font-family: "Cascadia Mono", Consolas, "Courier New", monospace;
+}
+
+.ok {
+  font-size: 0.86rem;
+  color: #1a7f45;
+  background: #eefaf1;
+  border: 1px solid #9ad9b4;
+  border-radius: 6px;
+  padding: 0.45rem 0.7rem;
+}
+
+.err {
+  font-size: 0.85rem;
+  color: #b00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+  padding: 0.45rem 0.7rem;
+  white-space: pre-wrap;
+}

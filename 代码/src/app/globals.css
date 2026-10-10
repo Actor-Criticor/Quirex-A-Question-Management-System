@@ -1,0 +1,463 @@
+@import 'computer-modern/cmu-serif.css';
+@import '@fontsource/noto-sans-sc';
+
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --surface-alt: #f8f9fb;
+  --border: #e1e4e8;
+  --text: #1a1a2e;
+  --text-muted: #6b7280;
+  --accent: #4a6cf7;
+  --accent-light: #eef1ff;
+  --warning: #f0c000;
+  --warning-bg: #fffbe6;
+  --note-bg: #f3f4f6;
+  --note-border: #9ca3af;
+  --row-stripe: #fafbfc;
+  --row-hover: #f4f6fb;
+  --detail-border: #4a90d9;
+  --detail-bg: #fafbff;
+  --katex-color: #222;
+
+  /* v3：全站内容宽度只有一个来源。页面一律填满它，不许再写私有 max-width。
+     这个值就是「试题篮页」的宽度 —— 那是你认定的好看基准。 */
+  --ma-page-w: 1500px;
+
+  /* v3 的 --ma-read-w 与 v4 的 --ma-list-w 都已在 v5 并入下面的 --ma-col-w。
+     全站宽度只留一把尺子 —— 这是 v5 的核心约定：**同一张图在任何地方
+     占题干的比例都一致**，滑块的含义也就不会随容器漂移。 */
+
+  /* v5：全站「正文栏」宽度 —— **唯一的一把尺子**。
+     题干、答案、图片、以及题库页上方的搜索/筛选区、题目卡片全都用它：
+       · 图片显示宽度 = 滑块值(0~1) × 这个宽度
+       · PDF 那边对应的是 \linewidth，所以滑块的含义两边一致
+     顺便解决「上方搜索区比下方列表宽、左右边界对不齐」的问题。 */
+  --ma-col-w: 1000px;
+
+  /* v4：表格「操作」列的统一起跑线 */
+  --ma-ops-w: 16rem;
+  --ma-ops-btn-w: 4.6em;
+}
+
+:root[data-theme="dark"] {
+  --bg: #121212;
+  --surface: #1e1e2e;
+  --surface-alt: #252540;
+  --border: #333355;
+  --text: #e4e4ec;
+  --text-muted: #9999bb;
+  --accent: #7b93ff;
+  --accent-light: #1e2040;
+  --warning: #e6b800;
+  --warning-bg: #2a2818;
+  --note-bg: #232338;
+  --note-border: #555577;
+  --row-stripe: #1a1a2e;
+  --row-hover: #262644;
+  --detail-border: #5566cc;
+  --detail-bg: #1a1a30;
+  --katex-color: #e4e4ec;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "CMU Serif", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   v1 通用件：按钮 / 输入 / 卡片 / 徽标
+   ============================================================ */
+
+button {
+  font-family: inherit;
+  font-size: 0.86rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.34em 0.75em;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+button:hover:not(:disabled) {
+  background: var(--row-hover);
+  border-color: var(--accent);
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+button.primary:hover:not(:disabled) {
+  filter: brightness(1.08);
+  background: var(--accent);
+}
+button.active {
+  background: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ---------------------------------------------------------------
+   v4 表格「操作」列的统一起跑线
+   ---------------------------------------------------------------
+   以前的坏写法：表头 text-align:left，单元格却 text-align:right，
+   按钮之间只靠 margin-left 挤 —— 一行有 1 个按钮、另一行有 3 个时，
+   每行的按钮起点都不一样，怎么看都是歪的。
+
+   现在：表头与按钮都靠左，且**每个按钮给固定宽度**，
+   于是一行里的第 1/2/3 个按钮各自落在同一列上。
+   --------------------------------------------------------------- */
+
+.ma-ops {
+  text-align: left;
+  white-space: nowrap;
+  width: var(--ma-ops-w);
+}
+
+.ma-ops-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.ma-ops-cell > button,
+.ma-ops-cell > a {
+  flex: 0 0 auto;
+  min-width: var(--ma-ops-btn-w);
+  text-align: center;
+}
+
+input[type='text'],
+input[type='number'],
+input[type='search'],
+select,
+textarea {
+  font-family: inherit;
+  font-size: 0.86rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.32em 0.5em;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--accent-light);
+  border-color: var(--accent);
+}
+
+.ma-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.ma-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  padding: 0.05em 0.45em;
+  border-radius: 4px;
+  background: var(--note-bg);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+.ma-badge.accent {
+  background: var(--accent-light);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.ma-badge.warn {
+  background: var(--warning-bg);
+  color: #8a6d00;
+  border-color: var(--warning);
+}
+.ma-badge.paper {
+  background: #eefaf1;
+  color: #1a7f45;
+  border-color: #9ad9b4;
+}
+
+.ma-muted {
+  color: var(--text-muted);
+}
+.ma-mono {
+  font-family: "Cascadia Mono", Consolas, "Courier New", monospace;
+  font-size: 0.82rem;
+}
+
+/* ============================================================
+   v1 LaTeX 渲染（与 latexRender.ts 的 class 名一一对应）
+   ============================================================ */
+
+.ma-body {
+  line-height: 2.1;
+  color: var(--katex-color);
+}
+.ma-body p {
+  margin: 0 0 0.6em;
+}
+.ma-body p:last-child {
+  margin-bottom: 0;
+}
+.ma-body strong {
+  font-weight: 700;
+}
+
+/* 选择题的空括号 */
+.ma-pick {
+  white-space: nowrap;
+}
+/* 填空题的横线 */
+.ma-fillin {
+  display: inline-block;
+  width: 3.5em;
+  border-bottom: 1px solid currentColor;
+  margin: 0 0.25em;
+  vertical-align: baseline;
+}
+
+/* ---------------------------------------------------------------
+   v3 → v5 图片尺寸与观感
+   ---------------------------------------------------------------
+   v3 的做法（已废弃）：宽度用作者设的百分比，**再叠一个 px 高度上限**。
+   后果是那个 px 上限一生效就把作者的百分比吃掉了 —— 同一张图设 0.4 和 0.8
+   在列表里渲染出来**完全一样**，等于控制不了；而且 px 是绝对单位、文字是相对单位，
+   图和文字的比例会随字号漂移。
+
+   v5 的改法：
+     1) **宽度仍是作者设的百分比**（--ma-fig-w / --ma-img-w，来自 .tex 的 width=）
+        —— 它就是「滑块值 × 正文栏宽」，和 PDF 那边同一个含义
+     2) **兜底上限改用 em**（= 若干行文字的高度），只在极端长条图时才生效，
+        不再跟作者的百分比抢控制权；比例也不随字号漂移
+     3) 位置支持左/中/右（.ma-fig-left/center/right），与题型的习惯对齐
+     4) 去掉图外面那圈 1px 边框与圆角 —— 图片自带白底，描边只是在白边上又描一圈
+     5) 收紧上下留白、图注贴近
+   注意：只动网页显示，.tex 真源一个字不改，导出的 PDF 完全不受影响。
+   --------------------------------------------------------------- */
+
+.ma-body {
+  /* em 兜底（只是防止极端长条图撑爆版面；正常图用不到）。
+     列表卡片 / 录入预览 / 详情页各自覆盖（见各自 page.module.css）。 */
+  --ma-fig-h: 24em;
+  --ma-img-h: 18em;
+}
+
+/* 行内内容图（题干图 / 答案图 / 图形选项）
+   v8：默认**居中**。以前是 inline-block，图片段落跟着正文左对齐 ——
+   一张孤零零的图贴在左边很难看。这与 .tex 里新插图带的 \begin{center} 是同一套行为
+   （那边的 center 也自带换行），所以网页和 PDF 仍然一致。 */
+.ma-img {
+  display: block;
+  text-align: center;
+  margin: 0.35em 0;
+}
+.ma-img img {
+  width: auto;
+  height: auto;
+  max-width: min(100%, var(--ma-img-w, 100%));
+  max-height: var(--ma-img-h);
+  vertical-align: middle;
+}
+
+/* 示意图：不浮动 + 图号。
+   用 flex 而不是 fit-content —— 任何宽高比都稳定居中/靠边，不会偏。 */
+.ma-fig {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0.55em 0;
+}
+.ma-fig img {
+  width: auto;
+  height: auto;
+  max-width: var(--ma-fig-w, 40%);
+  max-height: var(--ma-fig-h);
+  /* 没有边框：图片自带白底，描边是多余的 */
+  background: #fff;
+}
+.ma-fig figcaption {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  margin-top: 0.2em;
+}
+
+/* 位置：由 meta.figAlign 决定（默认按题型推导：解答题靠右，其余居中） */
+.ma-fig-center {
+  align-items: center;
+}
+.ma-fig-center img,
+.ma-fig-center figcaption {
+  margin-left: auto;
+  margin-right: auto;
+}
+.ma-fig-left {
+  align-items: flex-start;
+}
+.ma-fig-right {
+  align-items: flex-end;
+}
+
+/* 整题图：题干/答案本身就是一张图（除图片外没有文字）。
+   它该**占满正文栏**、居中，并给一个 em 最小高度让卡片高度稳定。 */
+.ma-body.ma-image-only {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 14em;
+}
+.ma-image-only .ma-img img {
+  max-width: 100%;
+}
+.ma-image-only .ma-fig img {
+  max-width: min(var(--ma-fig-w, 100%), 100%);
+}
+
+/* ---------- v5：点图放大 ----------
+   列表里受版面限制看不清的图，点一下看原尺寸。
+   放在渲染层（LatexContent）而不是各个页面，所以全站都有。 */
+.ma-body img {
+  cursor: zoom-in;
+}
+
+.ma-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5vmin;
+  background: rgba(0, 0, 0, 0.78);
+  cursor: zoom-out;
+}
+.ma-lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  cursor: zoom-out;
+}
+
+/* 缺图提示 */
+.ma-img-missing {  display: inline-block;
+  font-size: 0.85em;
+  color: #b00;
+  background: var(--warning-bg);
+  border: 1px dashed var(--warning);
+  border-radius: 4px;
+  padding: 0 0.4em;
+}
+
+/* 选项 */
+.ma-choices {
+  list-style: none;
+  margin: 0.5em 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15em;
+}
+.ma-option {
+  display: flex;
+  gap: 0.4em;
+  align-items: baseline;
+}
+.ma-option-label {
+  color: var(--accent);
+  flex: 0 0 auto;
+  font-weight: 600;
+}
+
+/* 表格（tabular → HTML 表） */
+.ma-table-wrap {
+  margin: 0.6em 0;
+  overflow-x: auto;
+}
+.ma-table {
+  border-collapse: collapse;
+  font-size: 0.92em;
+}
+.ma-table td {
+  border: 1px solid var(--border);
+  padding: 0.25em 0.6em;
+  text-align: center;
+  vertical-align: middle;
+}
+.ma-table tr:first-child td {
+  background: var(--surface-alt);
+  font-weight: 600;
+}
+
+/* KaTeX 出错 */
+.ma-math-error {
+  color: #b00;
+  background: var(--warning-bg);
+  border-radius: 3px;
+  padding: 0 0.2em;
+}
+
+/* 答案块（对应导出端 \ans{...} 的圆角「答案」标签） */
+.ma-answer {
+  display: flex;
+  gap: 0.5em;
+  align-items: baseline;
+  margin-top: 0.7em;
+  padding-top: 0.6em;
+  border-top: 1px dashed var(--border);
+}
+.ma-answer-tag {
+  flex: 0 0 auto;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 0.8em;
+  padding: 0.02em 0.5em;
+  line-height: 1.6;
+}
+
+/* 渲染问题提示（KaTeX 失败 / 图片缺失） */
+.ma-problems {
+  margin-top: 0.5em;
+  font-size: 0.8rem;
+  color: #8a6d00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+  padding: 0.35em 0.6em;
+}
+
+/* lint 提示 */
+.ma-lint-error {
+  color: #b00;
+}
+.ma-lint-warn {
+  color: #8a6d00;
+}

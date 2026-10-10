@@ -1,0 +1,57 @@
+%%
+%% Quirex 讲义模板（双栏试卷）
+%%
+%% ======== 这个模板和「默认」有什么不同 ========
+%%
+%%   默认    ：单栏 11pt、每题留白 —— 适合作业纸
+%%   紧凑题单：单栏 10pt、不留白 —— 适合复习清单
+%%   本模板  ：**两栏** 9pt、不留白 —— 适合当正式卷子（一页能装下更多题）
+%%
+%% 它演示的是：**模板可以自己加宏包、自己排结构**。
+%% 导出程序只负责把 {{BODY}} 塞进来，外面想包一层 multicols 完全由模板决定。
+%%
+%% 注意：分栏环境下 \fig（示意图）仍然按整栏宽对齐，图注不会串栏。
+%%
+%% ======== 可用占位符（全量） ========
+%%   TITLE / AUTHOR / DATE / PRESET / LAYOUT / BODY
+%%
+\documentclass[9pt,a4paper]{book}
+
+\usepackage{quirex}             % 与本文件同目录，导出时一起复制
+\usepackage{multicol}           % 两栏排版（宏包由模板自己加）
+
+% ---------- 窄一点的页边距，两栏才装得下 ----------
+\geometry{top=1.7cm,bottom=1.7cm,left=1.5cm,right=1.5cm}
+\setlength{\columnsep}{1.8em}
+\setlength{\columnseprule}{0.3pt}   % 两栏之间一条细线
+
+% ---------- 页眉：标题居中 + 日期，横贯两栏 ----------
+\newcommand{\handoutHeader}{%
+  \begin{center}
+    {\fontsize{15}{19}\selectfont\bfseries\textcolor{mycolor}{ {{TITLE}} }}\\[0.35em]
+    {\small\textcolor{mycolor}{ {{DATE}} }}
+  \end{center}
+  \vspace{0.2em}
+}
+
+% ---------- 显示预设 ----------
+{{PRESET}}
+
+% ---------- 版式：写死紧凑（卷子不留作答空白） ----------
+\compactLayout
+\setlength{\parskip}{0.1em}
+
+\raggedbottom
+
+\begin{document}
+
+\handoutHeader
+
+% 正文整体进两栏；\begin{multicols} 会自动换页开始新的一栏流
+\begin{multicols}{2}
+
+{{BODY}}
+
+\end{multicols}
+
+\end{document}

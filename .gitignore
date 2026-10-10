@@ -1,0 +1,58 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+#
+# 目录结构（v10 整理后）：
+#   代码/   ← 应用本体（package.json 在这儿，npm 命令都在这里跑）
+#   模板/   ← 讲义模板（导出时可选的那几套）
+#   题库/   ← 你的题库（所有学科都在里面）
+#   导出/   ← 导出的讲义文件夹
+# 下面凡是带 `/代码/` 前缀的，都是"代码"里的产物。
+
+# dependencies
+/代码/node_modules
+/代码/.pnp
+/代码/.pnp.*
+/代码/.yarn/*
+!/代码/.yarn/patches
+!/代码/.yarn/plugins
+!/代码/.yarn/releases
+!/代码/.yarn/versions
+
+# testing
+/代码/coverage
+
+# next.js
+/代码/.next/
+/代码/out/
+
+# production
+/代码/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+# 但示例配置要进版本库，否则别人 clone 下来不知道怎么配
+!/代码/.env.local.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# ---------- Quirex 自己的产物 ----------
+# 本机配置（题库/导出/模板/xelatex 的路径）—— 每台机器不一样，不进版本库
+/代码/config.json
+# 导出出来的讲义文件夹（含 题目.pdf / 题目.log 等生成物）
+/导出/
+# 整库备份 zip
+Quirex备份_*.zip

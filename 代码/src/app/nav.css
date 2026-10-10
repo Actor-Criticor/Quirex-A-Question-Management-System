@@ -1,0 +1,82 @@
+.ma-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 0.6rem 1.4rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.ma-nav-brand {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+.ma-nav-links {
+  display: flex;
+  gap: 0.2rem;
+  flex: 1;
+}
+
+.ma-nav-link {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: background 0.12s, color 0.12s;
+}
+
+.ma-nav-link:hover {
+  background: var(--row-hover);
+  color: var(--text);
+}
+
+.ma-nav-link.active {
+  background: var(--accent-light);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.ma-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ma-theme-toggle {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  padding: 0;
+  line-height: 1;
+}
+
+.ma-main {
+  padding: 1.4rem;
+  max-width: var(--ma-page-w);
+  margin: 0 auto;
+}
+
+/* v3 版面约定：
+   全站内容宽度只有 --ma-page-w 一个来源。各页面的 .page 只写 width:100%，
+   **不许再写私有 max-width** —— 以前浏览页 1000px / 录入页 1080px / 标签页
+   1100px / 设置页 1000px 各写一套又都没写 margin:auto，内容就贴在
+   --ma-page-w 的左边缘、右边空一大片，这就是「界面不居中」的原因。
+   试题篮页从来没写这层限制，所以只有它好看 —— 现在全站都按它对齐。 */
+@media (max-width: 900px) {
+  .ma-main {
+    padding: 1rem 0.8rem;
+  }
+}

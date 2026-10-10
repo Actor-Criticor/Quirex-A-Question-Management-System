@@ -1,0 +1,419 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.title {
+  font-size: 1.25rem;
+}
+
+.sub {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  background: var(--note-bg);
+  border-left: 3px solid var(--note-border);
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- 左栏 ---------- */
+
+.sidebar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.sideHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.55rem 0.7rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.basketList {
+  list-style: none;
+}
+
+.basketItem,
+.basketActive {
+  display: flex;
+  align-items: stretch;
+  gap: 0.2rem;
+  font-size: 0.86rem;
+  border-left: 3px solid transparent;
+}
+
+.basketItem:hover {
+  background: var(--row-hover);
+}
+
+/* v3：「当前」= 内容与右侧「正在编辑」完全相同的那条快照。
+   因为载入副本不移除快照，左右可能出现内容相同的两份，得有标记指出哪条是活的。 */
+.basketActive {
+  background: var(--accent-light);
+  border-left-color: var(--accent);
+}
+
+/* 点主体 = 载入为当前编辑 */
+.basketPick {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  padding: 0.45rem 0.7rem;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+.basketPick:hover:not(:disabled) {
+  background: transparent;
+}
+
+.basketName {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* v7：与「正在编辑」内容相同的那条 —— 只靠这一处高亮表示，不再加「当前」小标签
+   （标签会被名字挤掉/挡住，而高亮本身就够说明问题了） */
+.basketActive .basketName {
+  font-weight: 600;
+}
+
+.basketMeta {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* 每条快照的 ✎ / ✕ */
+.basketOps {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+  padding-right: 0.35rem;
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+.basketItem:hover .basketOps,
+.basketActive:hover .basketOps,
+.basketActive .basketOps {
+  opacity: 1;
+}
+.basketOps button {
+  font-size: 0.75rem;
+  padding: 0.1em 0.4em;
+  background: transparent;
+  border: 0;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.basketOps button:hover:not(:disabled) {
+  color: var(--accent);
+}
+
+.sideOps {
+  display: flex;
+  gap: 0.3rem;
+  padding: 0.55rem 0.7rem;
+  border-top: 1px solid var(--border);
+}
+.sideOps button {
+  font-size: 0.78rem;
+  padding: 0.2em 0.5em;
+}
+
+/* ---------- 右栏 ---------- */
+
+.main {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.mainHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.h2 {
+  font-size: 1.02rem;
+  display: flex;
+  align-items: center;
+}
+
+/* v7：篮子里残留整卷时的提示行 */
+.paperWarn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+  line-height: 1.8;
+  color: #8a6d00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: 8px;
+  padding: 0.5rem 0.7rem;
+}
+
+.h3 {
+  font-size: 0.9rem;
+}
+
+.mainOps {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+.mainOps a {
+  text-decoration: none;
+}
+
+.emptyBasket {
+  font-size: 0.87rem;
+  color: var(--text-muted);
+  background: var(--surface-alt);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 1.6rem;
+  text-align: center;
+  line-height: 1.9;
+}
+.emptyBasket a {
+  color: var(--accent);
+}
+
+/* ---------- 题目列表 ---------- */
+
+.itemList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+/* v5：篮子里的题也是列表项，用 em 兜底（与浏览页卡片一致） */
+.item :global(.ma-body) {
+  --ma-fig-h: 11em;
+  --ma-img-h: 9em;
+}
+
+.item:hover {
+  background: var(--row-hover);
+}
+
+.itemOver {
+  border-color: var(--accent);
+  border-style: dashed;
+}
+
+.itemRetired {
+  opacity: 0.6;
+}
+
+/* 顶部元数据行 */
+.itemHead {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.grip {
+  color: var(--text-muted);
+  cursor: grab;
+  flex: 0 0 auto;
+}
+
+.order {
+  width: 1.6rem;
+  text-align: right;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  flex: 0 0 auto;
+}
+
+/* 正文区（也是拖动排序的落点） */
+.itemBody {
+  padding-left: 2.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.itemFoot {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  padding-top: 0.35rem;
+  border-top: 1px dashed var(--border);
+}
+.itemFoot button {
+  font-size: 0.76rem;
+  padding: 0.1em 0.5em;
+}
+
+/* 整卷描述：只显示 2 行 */
+.descClamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+.paperLinks {
+  display: flex;
+  gap: 0.7rem;
+}
+.paperLinks a {
+  font-size: 0.83rem;
+  color: var(--accent);
+}
+
+.itemOps {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: auto;
+  flex: 0 0 auto;
+}
+.itemOps button {
+  font-size: 0.76rem;
+  padding: 0.1em 0.45em;
+}
+.itemOps a {
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+
+/* ---------- 导出设置 ---------- */
+
+.exportBox {
+  border-top: 1px solid var(--border);
+  padding-top: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.exportHead {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.optRow {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.optLabel {
+  width: 3rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  flex: 0 0 auto;
+}
+
+/* v6：导出选项收进弹窗后，这里只显示"当前设置长什么样"的摘要 */
+.summary {
+  flex: 1 1 16rem;
+  min-width: 10rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.exportFoot {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-top: 0.3rem;
+}
+
+.hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.ok {
+  font-size: 0.86rem;
+  color: #1a7f45;
+  background: #eefaf1;
+  border: 1px solid #9ad9b4;
+  border-radius: 6px;
+  padding: 0.45rem 0.7rem;
+}
+
+.err {
+  font-size: 0.82rem;
+  color: #b00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+  padding: 0.45rem 0.7rem;
+  white-space: pre-wrap;
+  max-height: 18rem;
+  overflow: auto;
+}
